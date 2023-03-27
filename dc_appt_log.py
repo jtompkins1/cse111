@@ -15,6 +15,9 @@ def main():
 
 def populate_main_window(frame):
 
+    # change the file path to match where the dc.xlsx is saved
+    path = (r"C:\Users\Jennifer\Documents\jen_school\byui\programming\cse111_programing_with_functions\cse111\dc.xlsx")
+
     widgets_frame = ttk.LabelFrame(frame, text="Insert Row")
     widgets_frame.grid(row=0, column=0, padx=20, pady=10)
 
@@ -38,9 +41,7 @@ def populate_main_window(frame):
 
     def load_data():
         """load data from excel file to treeview"""
-
-        # change the file path to match where the dc.xlsx is saved
-        path = (r"C:\Users\Jennifer\Documents\jen_school\byui\programming\cse111_programing_with_functions\cse111\dc.xlsx")
+        
         workbook = openpyxl.load_workbook(path)
         sheet = workbook.active
 
@@ -58,8 +59,6 @@ def populate_main_window(frame):
         delnum = del_entry.get()
 
         # insert row into excel sheet
-        # change the file path to match where the dc.xlsx is saved
-        path = (r"C:\Users\Jennifer\Documents\jen_school\byui\programming\cse111_programing_with_functions\cse111\dc.xlsx")
         workbook = openpyxl.load_workbook(path)
         sheet = workbook.active
         row_values = [dc, delnum]
