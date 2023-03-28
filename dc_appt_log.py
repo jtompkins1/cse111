@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, Frame, Label
+from tkinter import ttk, Frame, Label, Button
 import openpyxl
 
 def main():
@@ -10,6 +10,7 @@ def main():
     frame.pack()
 
     populate_main_window(frame)
+
 
     root.mainloop()
 
@@ -28,7 +29,7 @@ def populate_main_window(frame):
     dc_entry.grid(row=0, column=0, padx=5, pady=(0, 5), sticky="ew")
 
     # drop down selection
-    dc_list = [6003, 6018, 7035, 7034, 7026, 6094, 6017, 6011, 6020, 6030, 6040]
+    dc_list = ["Select DC#", 6003, 6018, 7035, 7034, 7026, 6094, 6017, 6011, 6020, 6030, 6040]
     dc_entry = ttk.Combobox(widgets_frame, values=dc_list)
     dc_entry.current(0)
     dc_entry.grid(row=0, column=0, padx=5, pady=(0, 5), sticky="ew")
@@ -109,13 +110,22 @@ def populate_main_window(frame):
     treeview = ttk.Treeview(treeFrame, show="headings", yscrollcommand=treeScroll.set, columns=cols, height=20)
 
     # set width of treeview
+    # treeview["columns"] = ("DC", "Delivery#")
     treeview.column("DC", width=100)
     treeview.column("Delivery#", width=100)
+
+    # Configure column headings
+    treeview.heading("#0", text="Item")
+    treeview.heading("DC", text="DC")
+    treeview.heading("Delivery#", text="Delivery#")
+
 
     # position treeview
     treeview.pack()
     # config scrollbar
     treeScroll.config(command=treeview.yview)
+
+    return ttk.Treeview
 
     load_data()
 
@@ -128,7 +138,6 @@ def populate_main_window(frame):
         
 
     # insert current datetime into column at time of delnum entry
-
 
 
 if __name__ == "__main__":
