@@ -11,8 +11,8 @@ def test_insert_row():
     workbook = openpyxl.Workbook()
     sheet = workbook.active
     sheet.append(["DC", "Delivery#"])
-    sheet.append([6003, "D0001"])
-    sheet.append([7035, "D0002"])
+    sheet.append([6003, "98765432"])
+    sheet.append([7035, "12345678"])
     workbook.save(path)
 
     root = tk.Tk()
@@ -26,8 +26,8 @@ def test_insert_row():
     assert sheet["A2"].value == 6003
     assert sheet["A3"].value == 7035
     assert sheet["B1"].value == "Delivery#"
-    assert sheet["B2"].value == "D0001"
-    assert sheet["B3"].value == "D0002"
+    assert sheet["B2"].value == "98765432"
+    assert sheet["B3"].value == "12345678"
 
 
 # Call the main function that is part of pytest so that the
