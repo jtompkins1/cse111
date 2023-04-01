@@ -1,10 +1,12 @@
 import tkinter as tk
-from tkinter import ttk, Frame, Label, Button
+from tkinter import ttk, Frame, Label, Button, messagebox
 import openpyxl
+import os
+
 
 def main():
-
-    # change the file path to match where the dc.xlsx is saved
+    # Ensure this program file dc_appt_log.py and the file dc.xlsx are saved in the same folder.
+    # Change the filepath inside the quotations below to match the location of the dc.xlsx file.
     path = (r"C:\Users\Jennifer\Documents\jen_school\byui\programming\cse111_programing_with_functions\cse111\dc.xlsx")
 
     root = tk.Tk()
@@ -17,6 +19,14 @@ def main():
     root.mainloop()
 
 def populate_main_window(frame, path):
+    """Populate the main window of this program. In other words, put
+    the labels, text entry boxes, and buttons into the main window.
+
+    Parameters
+        frame: the main frame (window)
+        path: the filepath where the dc.xlsx file is located
+    Return: nothing
+    """
 
     widgets_frame = ttk.LabelFrame(frame, text="Insert Row")
     widgets_frame.grid(row=0, column=0, padx=20, pady=10)
@@ -40,26 +50,35 @@ def populate_main_window(frame, path):
     del_entry.grid(row=1, column=0, padx=5, pady=(0, 5), sticky="ew")
 
     def load_data():
-        """gets the data from excel file and loads it into the treeview"""
+        """gets the data from excel file and loads it into the treeview
+        parameters: none
+        return: nothing"""
         
-        workbook = openpyxl.load_workbook(path)
-        sheet = workbook.active
+        if os.path.exists(path):
+            workbook = openpyxl.load_workbook(path)
+            sheet = workbook.active
 
-        list_values = list(sheet.values)
-        
-        # add column names to treeview
-        for col_name in list_values[0]:
-            treeview.heading(col_name, text=col_name)
-        #skip row one
-        for value_tuple in list_values[1:]:
-            treeview.insert("", tk.END, values=value_tuple)
+            list_values = list(sheet.values)
+            
+            # add column names to treeview
+            for col_name in list_values[0]:
+                treeview.heading(col_name, text=col_name)
+            #skip row one
+            for value_tuple in list_values[1:]:
+                treeview.insert("", tk.END, values=value_tuple)
+
+        else:
+            ttk.tkinter.messagebox.showwarning(title="Error", 
+                                               message="File not found. Check location of file dc.xlsx and filepath entered on line 10 of dc_appt_log.py")
 
     def insert_row():
         """Extracts the values from the dc_entry and del_entry widgets and places
         them in a list, loads the existing excel file and appends the list into
         the last row of the worksheet, then saves worksheet and inserts the new
         row into the treeview widget. Once enterered the users input is cleared
-        from the entry widgets.  """
+        from the entry widgets.  
+        parameters: none
+        return: nothing"""
 
         # Extract data entered in dc_entry and del_entry widgets
         dc = dc_entry.get()
@@ -114,7 +133,7 @@ def populate_main_window(frame, path):
 
     load_data()
     
-    return ttk.Treeview
+    # return ttk.Treeview
     
 
 if __name__ == "__main__":
