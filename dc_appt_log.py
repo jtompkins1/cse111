@@ -3,10 +3,10 @@ from tkinter import ttk, Frame, Label, Button, messagebox
 import openpyxl
 import os
 
-
 def main():
-    # Ensure this program file dc_appt_log.py and the file dc.xlsx are saved in the same folder.
-    # Change the filepath inside the quotations below to match the location of the dc.xlsx file.
+    # Change the filepath inside the quotations below to match the location where you will save
+    # the new dc.xlsx file that will be created.
+    # Ensure this will be in the same folder as this program file dc_appt_log.py.
     path = (r"C:\Users\Jennifer\Documents\jen_school\byui\programming\cse111_programing_with_functions\cse111\dc.xlsx")
 
     root = tk.Tk()
@@ -18,6 +18,19 @@ def main():
 
     root.mainloop()
 
+def create_dc_file(path):
+    """Create a new xlss file with column headings "DC and "Delivery
+    and save file
+    Parameter path
+    Return path"""
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    heading = ["DC", "Delivery#"]
+    sheet.append(heading)
+    path = workbook.save(path)
+
+    return path
+
 def populate_main_window(frame, path):
     """Populate the main window of this program. In other words, put
     the labels, text entry boxes, and buttons into the main window.
@@ -27,6 +40,7 @@ def populate_main_window(frame, path):
         path: the filepath where the dc.xlsx file is located
     Return: nothing
     """
+    create_dc_file(path)
 
     widgets_frame = ttk.LabelFrame(frame, text="Insert Row")
     widgets_frame.grid(row=0, column=0, padx=20, pady=10)
@@ -131,9 +145,8 @@ def populate_main_window(frame, path):
     # config scrollbar
     treeScroll.config(command=treeview.yview)
 
+    # load data into treeview
     load_data()
-    
-    # return ttk.Treeview
     
 
 if __name__ == "__main__":
